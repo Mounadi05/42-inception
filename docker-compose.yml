@@ -1,0 +1,53 @@
+version: "3.7"
+
+volumes:
+
+  db:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./requirements/DB
+
+  wb:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./requirements/WB
+
+services:
+  
+  nginx:
+    build: 
+      context: ./requirements/nginx
+    image: nginx:my 
+    container_name: co_nginx
+    ports:
+      - 443:443
+  
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      args:
+        - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-default_root_password}
+        - DB_USER=${DB_USER:-default_user}
+        - DB_USER_PASSWORD=${DB_USER_PASSWORD:-default_password}
+        - DB_DATABASE=${DB_DATABASE:-default_database}
+    image: mariadb:my 
+    container_name: co_mariadb
+    env_file : ./requirements/mariadb/.env
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    
+  # wordpress:
+  #   build :
+  #     context : ./requirements/wordpress
+  #   image: wordpress:my
+  #   container_name: co_wordpress
+  #   volumes:
+  #     - wb:/home/
+  #   ports: 
+  #     - 9000:9000

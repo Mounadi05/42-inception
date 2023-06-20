@@ -23,13 +23,13 @@
 define( 'DB_NAME',  getenv('DB_DATABASE'));
 
 /** Database username */
-define( 'DB_USER', getenv('DB_USER') );
+define( 'DB_USER', getenv('DB_USER'));
 
 /** Database password */
 define( 'DB_PASSWORD', getenv('DB_USER_PASSWORD') );
 
 /** Database hostname */
-define( 'DB_HOST', getenv('DB_HOST'));
+define( 'DB_HOST', 'co_mariadb');
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );

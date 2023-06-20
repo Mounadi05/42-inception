@@ -33,6 +33,8 @@ services:
       - wb:/usr/share/nginx/html
     networks:
       - mynetwork
+    depends_on:
+      - wordpress
   
   mariadb:
     build:
@@ -50,23 +52,26 @@ services:
     networks:
       - mynetwork
     
-  # wordpress:
-  #   build :
-  #     context : ./requirements/wordpress
-  #     args:
-  #     - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-default_root_password}
-  #     - DB_USER=${DB_USER:-default_user}
-  #     - DB_USER_PASSWORD=${DB_USER_PASSWORD:-default_password}
-  #     - DB_DATABASE=${DB_DATABASE:-default_database}
-  #     - url=${url:-def}
-  #     - title=${title:-def}
-  #     - wordpress_admin=${wordpress_admin:-def}
-  #     - wordpress_password=${wordpress_password:-def}
-  #     - admin_email=${admin_email:-def}
-  #   image: wordpress:my
-  #   container_name: co_wordpress
-  #   env_file : ./.env
-  #   volumes:
-  #     - wb:/usr/share/nginx/html
-  #   networks:
-  #     - mynetwork
+  wordpress:
+    build :
+      context : ./requirements/wordpress
+      args:
+      - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-default_root_password}
+      - DB_USER=${DB_USER:-default_user}
+      - DB_USER_PASSWORD=${DB_USER_PASSWORD:-default_password}
+      - DB_DATABASE=${DB_DATABASE:-default_database}
+      - url=${url:-def}
+      - title=${title:-def}
+      - wordpress_admin=${wordpress_admin:-def}
+      - wordpress_password=${wordpress_password:-def}
+      - admin_email=${admin_email:-def}
+      - DB_HOST=co_mariadb
+    image: wordpress:my
+    container_name: co_wordpress
+    env_file : ./.env
+    volumes:
+      - wb:/usr/share/nginx/html
+    networks:
+      - mynetwork
+    depends_on:
+      - mariadb

@@ -1,7 +1,19 @@
-server {     
-	listen       443 ssl;
-    server_name  localhost;
+ server {
+    listen 443 ssl;
+    server_name mouandi05.live www.mouandi05.live;
     ssl_certificate /etc/nginx/ssl/ssl.crt;
     ssl_certificate_key /etc/nginx/ssl/ssl.key;
-    root /usr/share/nginx/html;   
-  }
+    root /usr/share/nginx/html/wordpress;
+    index index.php;
+    location / {
+
+    location ~ .php$ {
+          try_files $uri /index.php =404;
+          fastcgi_split_path_info ^(.+.php)(/.+)$;
+          fastcgi_pass wordpress:9000;
+          fastcgi_index index.php;
+          include fastcgi_params;
+          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+    }
+}

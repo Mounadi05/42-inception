@@ -2,7 +2,7 @@
 
 service mysql start 
 
-sleep 5
+sleep 2
 
 mysql -u root -p$DB_ROOT_PASSWORD -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';" 
 

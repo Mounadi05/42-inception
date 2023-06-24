@@ -1,0 +1,10 @@
+FROM debian:buster
+
+RUN apt-get update && apt-get install -y curl
+
+RUN curl -L https://github.com/portainer/portainer/releases/download/2.18.2/portainer-2.18.2-linux-amd64.tar.gz -o portainer.tar.gz \
+    && tar xzf portainer.tar.gz \
+    && rm portainer.tar.gz
+
+WORKDIR /portainer
+CMD ["./portainer"]

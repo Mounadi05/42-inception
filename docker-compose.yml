@@ -34,7 +34,9 @@ services:
     networks:
       - mynetwork
     depends_on:
-      - wordpress
+      - ftp
+    restart: always
+
   
   mariadb:
     build:
@@ -51,6 +53,8 @@ services:
       - db:/var/lib/mysql
     networks:
       - mynetwork
+    restart: always
+
     
   wordpress:
     build :
@@ -66,6 +70,9 @@ services:
       - wordpress_password=${wordpress_password:-def}
       - admin_email=${admin_email:-def}
       - DB_HOST=co_mariadb
+      - FTP_HOST=${FTP_HOST:-def}
+      - FTP_USER=${FTP_USER:-def}
+      - FTP_PASS=${FTP_PASS:-def}
     image: wordpress:my
     container_name: co_wordpress
     env_file : ./.env
@@ -75,3 +82,77 @@ services:
       - mynetwork
     depends_on:
       - mariadb
+    restart: always
+
+    
+  adminer:
+    build:
+      context: ./requirements/bonus/adminer
+    image: adminer:my
+    container_name: co_adminer
+    networks:
+      - mynetwork
+    restart: always
+
+
+  ftp:
+    build:
+      context: ./requirements/bonus/ftp
+      args : 
+        - FTP_HOST=${FTP_HOST:-def}
+        - FTP_USER=${FTP_USER:-def}
+        - FTP_PASS=${FTP_PASS:-def}
+    image: ftp:my
+    container_name: co_ftp
+    env_file : ./.env
+    volumes:
+      - wb:/home/
+    networks:
+      - mynetwork
+    depends_on:
+      - wordpress
+    restart: always
+
+  
+  static:
+    build:
+      context: ./requirements/bonus/static
+    image: static:my
+    container_name: co_static
+    networks:
+      - mynetwork
+    depends_on:
+      - wordpress
+    restart: always
+ 
+  
+  portainer:
+    build:
+      context: ./requirements/bonus/portainer
+    image: portainer:my
+    container_name: co_portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - mynetwork
+    depends_on:
+      - wordpress
+    restart: always
+
+  redis:
+    build:
+      context: ./requirements/bonus/redis
+    image: redis:my
+    container_name: co_redis
+    networks:
+      - mynetwork
+    depends_on:
+      - wordpress
+    volumes:
+      - wb:/home/
+    restart: always
+   
+ 
+
+
+

@@ -8,7 +8,5 @@ COPY /tools/script.sh /root/
 
 RUN chmod +x /root/script.sh
 
-EXPOSE 21
-
 CMD ["/root/script.sh"]
 

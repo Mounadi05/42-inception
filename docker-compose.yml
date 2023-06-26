@@ -7,14 +7,14 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/login/data/DB
+      device: /home/amounadi/data/DB
 
   wb:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: /home/login/data/WB
+      device: /home/amounadi/data/WB
 
 networks:
   mynetwork:
@@ -25,8 +25,11 @@ services:
   nginx:
     build: 
       context: ./requirements/nginx
+      args:
+      - DOMAIN_NAME=${DOMAIN_NAME:-def}
     image: nginx:my 
     container_name: co_nginx
+    env_file : ./.env
     ports:
       - 443:443
     volumes:
@@ -148,6 +151,7 @@ services:
       - mynetwork
     depends_on:
       - wordpress
+      - nginx
     volumes:
       - wb:/home/
     restart: always

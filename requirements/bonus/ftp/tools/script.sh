@@ -1,5 +1,5 @@
 #!/bin/sh
-if ! id "$FTP_USER" >/dev/null 2>&1; then
+if [ ! -f /var/run/vsftpd/empty ]; then
 mkdir -p /var/run/vsftpd/empty
 chmod 755 /var/run/vsftpd/empty
 useradd -m -p $(openssl passwd -1 $FTP_PASS) $FTP_USER

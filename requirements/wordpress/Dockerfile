@@ -26,8 +26,6 @@ COPY ./tools/www.conf /etc/php/7.3/fpm/pool.d/
 
 COPY ./tools/script.sh /home/
 
-RUN cp /usr/share/nginx/html/wordpress/wp-config-sample.php   /usr/share/nginx/html/wordpress/wp-config.php 
-
 RUN chmod +x /home/script.sh
 
 CMD ["/home/script.sh"]

@@ -12,6 +12,6 @@ down:
 clean:
 	docker-compose down -v
 
-fclean: clean
-	echo "root"| sudo -S rm -rf /home/amounadi/data/DB/* /home/amounadi/data/WB/*
+fclean: 
+	rm -rf /home/amounadi/data/DB/* /home/amounadi/data/WB/*
 

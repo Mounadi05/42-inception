@@ -132,8 +132,11 @@ services:
   portainer:
     build:
       context: ./requirements/bonus/portainer
+      args:
+        - PORTAINER_PASS=${PORTAINER_PASS:-def}
     image: portainer:my
     container_name: co_portainer
+    env_file : ./.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:

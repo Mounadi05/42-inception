@@ -14,7 +14,7 @@ wp core install  --url=$url --title=$title --admin_name=$wordpress_admin --admin
 wp user create $WP_user $user_mail --role="author" --user_pass=$user_pass  --path=/usr/share/nginx/html/wordpress/ --allow-root 
 
 chown www-data:www-data /usr/share/nginx/html/wordpress -R 
-
+chmod 766 www-data:www-data /usr/share/nginx/html/wordpress
 wp plugin install redis-cache --activate  --path=/usr/share/nginx/html/wordpress/ --allow-root
 
 wp config set WP_REDIS_HOST co_redis --path=/usr/share/nginx/html/wordpress/ --allow-root

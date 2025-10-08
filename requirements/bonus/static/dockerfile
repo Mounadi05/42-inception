@@ -2,7 +2,7 @@ FROM debian:buster
 
 RUN apt update && apt install -y python3
 
-COPY /tools/gym /var/www/html
+COPY /tools/static /var/www/html
 
 WORKDIR /var/www/html
 
